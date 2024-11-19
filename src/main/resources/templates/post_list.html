@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Instagram風アプリ - 投稿一覧</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<h1>投稿一覧</h1>
+<a th:href="@{/create}">新しい投稿を作成</a>
+<ul>
+    <li th:each="post : ${posts}">
+        <p><strong th:text="${post.username}">ユーザー名</strong></p>
+        <p th:text="${post.content}">投稿内容</p>
+        <img th:src="@{${post.imageUrl}}" alt="投稿画像" width="300"/>
+        <hr/>
+    </li>
+</ul>
+</body>
+</html>
