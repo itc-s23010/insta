@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>投稿詳細</title>
+</head>
+<body>
+<h1>投稿詳細</h1>
+<a th:href="@{/posts}">投稿一覧に戻る</a>
+<h2 th:text="${post.username}">ユーザー名</h2>
+<p th:text="${post.content}">投稿内容</p>
+<img th:src="@{${post.imageUrl}}" alt="投稿画像" width="300"/>
+
+<h3>コメント一覧</h3>
+<ul>
+    <li th:each="comment : ${comments}">
+        <strong th:text="${comment.username}">ユーザー名</strong>:
+        <span th:text="${comment.content}">コメント内容</span>
+    </li>
+</ul>
+
+<h3>コメントを追加</h3>
+<form th:action="@{/posts/{id}/comments(id=${post.id})}" method="post">
+    <input type="text" name="username" placeholder="ユーザー名" required/>
+    <textarea name="content" placeholder="コメント内容" required></textarea>
+    <button type="submit">コメントを投稿</button>
+</form>
+</body>
+</html>

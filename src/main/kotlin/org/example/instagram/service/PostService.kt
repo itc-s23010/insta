@@ -1,11 +1,17 @@
 package org.example.instagram.service
 
+import jakarta.transaction.Transactional
 import org.example.instagram.model.Post
+import org.example.instagram.repository.CommentRepository
 import org.example.instagram.repository.PostRepository
 import org.springframework.stereotype.Service
 
 @Service
-class PostService(private val postRepository: PostRepository) {
+@Transactional
+class PostService(
+    private val postRepository: PostRepository,
+    private val commentRepository: CommentRepository
+) {
 
     fun getAllPosts(): List<Post> = postRepository.findAll()
 
@@ -25,6 +31,15 @@ class PostService(private val postRepository: PostRepository) {
     }
 
     fun deletePost(id: Long) {
-        postRepository.deleteById(id)
+        val post = postRepository.findById(id).orElse(null)
+        if (post != null) {
+            // 関連するコメントを削除
+            commentRepository.deleteAllByPost(post)
+            postRepository.delete(post)
+        }
     }
+    fun getPostById(id: Long): Post? {
+        return postRepository.findById(id).orElse(null)
+    }
+
 }

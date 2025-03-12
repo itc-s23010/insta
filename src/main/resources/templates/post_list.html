@@ -12,6 +12,10 @@
         <p><strong th:text="${post.username}">ユーザー名</strong></p>
         <p th:text="${post.content}">投稿内容</p>
         <img th:src="@{${post.imageUrl}}" alt="投稿画像" width="300"/>
+        <a th:href="@{/posts/{id}(id=${post.id})}">詳細を見る</a>
+        <form th:action="@{/posts/delete/{id}(id=${post.id})}" method="get" onsubmit="return confirm('この投稿を削除してもよろしいですか？')">
+            <button type="submit">削除</button>
+        </form>
         <hr/>
     </li>
 </ul>
